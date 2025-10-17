@@ -24,3 +24,26 @@ gas-report.txt
 # zkit
 generated-types/
 zkit/
+
+# deployment files
+deployment-*
+deploy-wwiii*
+start-new-round.ts
+
+# random scripts
+query-auditor.ts
+
+# waracle
+waracle-*
+.env.waracle*
+read-bunker-balances.ts
+cleanup-destroyed-bunkers.ts
+
+# community presale
+CommunityPresale.sol
+*community*
+*merkle*
+update-presale*
+
+# verification args
+verify-*

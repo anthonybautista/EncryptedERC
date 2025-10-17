@@ -5,7 +5,8 @@
 		"@biomejs/biome": "^1.9.4",
 		"@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
 		"@nomicfoundation/hardhat-ethers": "^3.0.8",
-		"@openzeppelin/contracts": "^5.1.0",
+		"@openzeppelin/contracts": "^5.3.0",
+		"@openzeppelin/merkle-tree": "^1.0.8",
 		"@solarity/chai-zkit": "^0.3.1",
 		"@solarity/hardhat-zkit": "^0.5.15",
 		"@typechain/hardhat": "^9.1.0",
@@ -23,7 +24,19 @@
 		"solidity-coverage": "^0.8.14"
 	},
 	"scripts": {
-		"test": "mocha 'src/**/*.test.js'",
+		"test": "npx hardhat test",
+		"test:core": "npx hardhat test test/wwiii-game-core.test.ts",
+		"test:movement": "npx hardhat test test/wwiii-game-movement.test.ts",
+		"test:rounds": "npx hardhat test test/wwiii-game-rounds.test.ts",
+		"test:combat": "npx hardhat test test/wwiii-game-combat.test.ts",
+		"test:waracle": "npx hardhat test test/wwiii-game-waracle.test.ts",
+		"test:economy": "npx hardhat test test/wwiii-game-economy.test.ts",
+		"test:integration": "npx hardhat test test/wwiii-game-integration.test.ts",
+		"test:game": "npx hardhat test test/wwiii-game*.test.ts",
+		"test:tokens": "npx hardhat test test/*token*.test.ts",
+		"test:vault": "npx hardhat test test/emission-vault.test.ts",
+		"test:bunkers": "npx hardhat test test/bunker*.test.ts",
+		"test:coverage": "npx hardhat coverage",
 		"postinstall": "npx hardhat compile & npx hardhat zkit make --force && npx hardhat zkit verifiers",
 		"lint:sol": "solhint '**/*.sol' --config ./.solhint.json --ignore-path ./.solhintignore --max-warnings 0 && npx prettier --check '**/*.sol' --config ./.prettierrc",
 		"lint:ts": "npx biome lint .",
@@ -34,5 +47,8 @@
 	"repository": {
 		"url": "https://github.com/ava-labs/EncryptedERC",
 		"type": "git"
+	},
+	"dependencies": {
+		"@nomicfoundation/hardhat-verify": "^2.0.14"
 	}
 }

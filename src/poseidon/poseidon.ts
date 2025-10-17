@@ -32,6 +32,7 @@ export const processPoseidonEncryption = (
 	inputs: bigint[],
 	publicKey: bigint[],
 ) => {
+
 	const nonce = randomNonce();
 
 	let encRandom = genRandomBabyJubValue();

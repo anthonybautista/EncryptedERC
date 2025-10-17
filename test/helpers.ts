@@ -25,6 +25,7 @@ import {
 	BurnVerifier__factory,
 } from "../typechain-types/factories/contracts/prod";
 import {
+	ActionCircuitGroth16Verifier__factory,
 	BurnCircuitGroth16Verifier__factory,
 	MintCircuitGroth16Verifier__factory,
 	RegistrationCircuitGroth16Verifier__factory,
@@ -32,6 +33,16 @@ import {
 	WithdrawCircuitGroth16Verifier__factory,
 } from "../typechain-types/factories/contracts/verifiers";
 import type { User } from "./user";
+
+/**
+ * Get a future timestamp for blockchain operations
+ * @param offsetSeconds Seconds to add to current block timestamp
+ * @returns Future timestamp
+ */
+export const getFutureTimestamp = async (offsetSeconds: number = 3600): Promise<number> => {
+	const currentBlock = await ethers.provider.getBlock("latest");
+	return currentBlock!.timestamp + offsetSeconds;
+};
 
 /**
  * Function for deploying verifier contracts for eERC
@@ -111,6 +122,27 @@ export const deployVerifiers = async (
 		withdrawVerifier: withdrawVerifier.target.toString(),
 		transferVerifier: transferVerifier.target.toString(),
 		burnVerifier: burnVerifier.target.toString(),
+	};
+};
+
+/**
+ * Function for deploying verifier contracts for WWIII game (includes action verifier)
+ * @param signer Hardhat signer for the deployment
+ * @returns All verifiers including actionVerifier for game contract
+ */
+export const deployGameVerifiers = async (signer: SignerWithAddress) => {
+	// Deploy all standard verifiers
+	const standardVerifiers = await deployVerifiers(signer);
+
+	// Deploy action verifier specifically for game contract
+	const actionVerifier = await new ActionCircuitGroth16Verifier__factory(
+		signer,
+	).deploy();
+	await actionVerifier.waitForDeployment();
+
+	return {
+		...standardVerifiers,
+		actionVerifier: actionVerifier.target.toString(),
 	};
 };
 
@@ -497,3 +529,18 @@ export const getDecryptedBalance = async (
 
 	return totalBalance;
 };
+
+/**
+ * Generate a valid action proof for WWIII game combat
+ * @param currentBunker Player's current bunker (1-5)
+ * @param targetBunker Target bunker for attack (1-5)
+ * @param deployedAmount Player's total deployed amount
+ * @param rocketAmount Amount to allocate to ROCKET tokens
+ * @param shieldAmount Amount to allocate to SHIELD tokens
+ * @param rocketReceiverKey Target bunker's public key [x, y]
+ * @param shieldReceiverKey Current bunker's public key [x, y]
+ * @param actionNonce Unique nonce for the action
+ * @returns Valid proof and public signals for contract call
+ */
+// NOTE: generateActionProof function has been removed as it used the old circuit format.
+// Use the new format with real mint proofs as demonstrated in the end-to-end test and combat test files.

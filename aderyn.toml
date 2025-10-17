@@ -1,0 +1,14 @@
+version = 1
+
+root = "."
+src = "contracts"
+
+include = ["contracts/"]
+
+remappings = [
+    "@openzeppelin/contracts/=node_modules/@openzeppelin/contracts/",
+    "hardhat/=node_modules/hardhat/",
+]
+
+[env]
+FOUNDRY_PROFILE = "ccip"

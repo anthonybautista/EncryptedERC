@@ -1,16 +1,19 @@
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-verify";
 import "@solarity/chai-zkit";
 import "@solarity/hardhat-zkit";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
-import type { HardhatUserConfig } from "hardhat/config";
+import type { HardhatUserConfig } from "hardhat/types";
 import "solidity-coverage";
 
 import dotenv from "dotenv";
 dotenv.config();
 
 const RPC_URL = process.env.RPC_URL || "https://api.avax.network/ext/bc/C/rpc";
+const SATLY_RPC_URL = process.env.SATLY_RPC_URL || "https://testnet.rpc.bitcoinl1.net";
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -30,6 +33,35 @@ const config: HardhatUserConfig = {
         enabled: !!process.env.FORKING,
       },
     },
+    satly: {
+      url: SATLY_RPC_URL,
+      chainId: 132008,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      gasPrice: "auto",
+      gas: "auto",
+    },
+    avalanche: {
+      url: RPC_URL,
+      chainId: 43114,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      gasPrice: "auto",
+      gas: "auto",
+    },
+  },
+  etherscan: {
+    apiKey: {
+      satly: process.env.BLOCKSCOUT_API_KEY || "dummy-key"
+    },
+    customChains: [
+      {
+        network: "satly",
+        chainId: 132008,
+        urls: {
+          apiURL: "https://testnet.bitcoinl1.net/api",
+          browserURL: "https://testnet.bitcoinl1.net"
+        }
+      }
+    ]
   },
   gasReporter: {
     enabled: !!process.env.REPORT_GAS,

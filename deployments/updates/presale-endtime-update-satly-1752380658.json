@@ -1,0 +1,11 @@
+{
+  "contractAddress": "0xBDAcA54E25ea32A29Df55167Fc7520F5F59c88CC",
+  "previousEndTime": 1752639763,
+  "newEndTime": 1752710400,
+  "updatedAt": 1752380658,
+  "updatedBy": "0xdb5b73627789F2D031A2AF15D44FFF5c24E01DbA",
+  "transactionHash": "0xa398bfb6a70c96db02d1fbc50eab31e6d30c156308282d00b2c4b97c838551b9",
+  "network": "satly",
+  "chainId": 132008,
+  "blockNumber": 227803
+}
